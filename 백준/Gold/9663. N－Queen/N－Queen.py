@@ -1,6 +1,5 @@
-import sys
-input = sys.stdin.readline
 n = int(input())
+
 result = 0
 
 is_used_1 = [False] * n
