@@ -9,7 +9,7 @@ def is_correct(x):
 low = 1
 high = max(length_list)
 mid = (low + high) // 2
-while True:
+while low <= high:
     if is_correct(mid):
         print(mid)
         break
