@@ -1,19 +1,21 @@
 import sys
 input = sys.stdin.readline
 from math import inf
+from collections import defaultdict
 
 n, m, b = map(int, input().split())
-matrix = [list(map(int, input().split())) for _ in range(n)]
+counter = defaultdict(int)
+for _ in range(n):
+    for height in map(int, input().split()):
+        counter[height] += 1
 
-def cal(h):
+def cal(goal):
     dig, fill = 0, 0
-    for row in matrix:
-        for elem in row:
-            diff = elem - h
-            if diff > 0:
-                dig += diff
-            else:
-                fill -= diff
+    for height, num in counter.items():
+        if height > goal:
+            dig += (height - goal) * num
+        else:
+            fill += (goal - height) * num
     if fill > dig + b:
         return inf
     return dig * 2 + fill
