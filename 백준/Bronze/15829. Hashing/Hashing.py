@@ -8,4 +8,4 @@ for i in range(len(string)):
     result += n * squared
     squared *= 31
 
-print(result)
+print(result % 1234567891)
