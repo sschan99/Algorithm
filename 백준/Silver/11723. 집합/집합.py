@@ -1,25 +1,27 @@
 import sys
 input = sys.stdin.readline
 
-s = set()
+b = 0
+MASK = 0xFFFFF
 
-m = int(input())
-for _ in range(m):
+def one_bit(x):
+    return 1 << (x - 1)
+
+for _ in range(int(input())):
     argv = input().split()
     cmd = argv[0]
     x = int(argv[1]) if len(argv) > 1 else 0
     if cmd == 'add':
-        s.add(x)
+        b |= one_bit(x)
     elif cmd == 'remove':
-        if x in s: s.remove(x)
+        b &= one_bit(x) ^ MASK
     elif cmd == 'check':
-        print(1 if x in s else 0)
+        print(1 if b & one_bit(x) else 0)
     elif cmd == 'toggle':
-        if x in s: s.remove(x)
-        else: s.add(x)
+        b ^= one_bit(x)
     elif cmd == 'all':
-        for i in range(1, 20 + 1): s.add(i)
+        b = MASK
     elif cmd == 'empty':
-        s.clear()
+        b = 0
     else:
         raise ValueError
