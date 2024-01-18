@@ -3,10 +3,10 @@ import sys
 input = sys.stdin.readline
 
 n = int(input())
-h = []
-for _ in range(n):
+h = list(map(int, input().split()))
+heapq.heapify(h)
+for _ in range(1, n):
     for num in map(int, input().split()):
         heapq.heappush(h, num)
-        if len(h) > n:
-            heapq.heappop(h)
+        heapq.heappop(h)
 print(heapq.heappop(h))
