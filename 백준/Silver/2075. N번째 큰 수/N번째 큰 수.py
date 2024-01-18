@@ -7,6 +7,8 @@ h = list(map(int, input().split()))
 heapq.heapify(h)
 for _ in range(1, n):
     for num in map(int, input().split()):
+        if num < h[0]:
+            continue
         heapq.heappush(h, num)
         heapq.heappop(h)
 print(heapq.heappop(h))
