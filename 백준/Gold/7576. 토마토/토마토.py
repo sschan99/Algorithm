@@ -1,40 +1,45 @@
 import sys
 
-input = sys.stdin.readline
 
-M, N = map(int, input().split())
-tomato = []
+def main():
+    N, M = map(int, (sys.stdin.readline().split()))
+    rows = []
+    ones = []
+    for i in range(M):
+        rows.append(list(map(int, (sys.stdin.readline().split()))))
+        for j in range(N):
+            if rows[-1][j] == 1:
+                ones.append((i, j))
 
-q = []
-result = -1
+    answer = 0
+    while ones:
+        new_ones = []
+        for onei, onej in ones:
+            # print(onei, onej, ones)
+            if onei > 0 and rows[onei - 1][onej] == 0:
+                rows[onei - 1][onej] = 1
+                new_ones.append((onei - 1,onej))
+            if onei < M - 1 and rows[onei + 1][onej] == 0:
+                rows[onei + 1][onej] = 1
+                new_ones.append((onei + 1,onej))
+            if onej > 0 and rows[onei][onej - 1] == 0:
+                rows[onei][onej - 1] = 1
+                new_ones.append((onei,onej - 1))
+            if onej < N - 1 and rows[onei][onej + 1] == 0:
+                rows[onei][onej + 1] = 1
+                new_ones.append((onei,onej + 1))
+        # print(rows)
+        # print(ones)
+        ones = new_ones
+        if ones:
+            answer += 1
 
-for i in range(N):
-    row = list(map(int, input().split()))
-    for j in range(M):
-        if row[j] == 1:
-            q.append((i, j))
-    tomato.append(row)
+    for row in rows:
+        if 0 in row:
+            print(-1)
+            return
+    print(answer)
 
-while q:
-    result += 1
-    nq = []
-    for x, y in q:
-        if x - 1 >= 0 and tomato[x - 1][y] == 0:
-            tomato[x - 1][y] = 1
-            nq.append((x - 1, y))
-        if x + 1 < N and tomato[x + 1][y] == 0:
-            tomato[x + 1][y] = 1
-            nq.append((x + 1, y))
-        if y - 1 >= 0 and tomato[x][y - 1] == 0:
-            tomato[x][y - 1] = 1
-            nq.append((x, y - 1))
-        if y + 1 < M and tomato[x][y + 1] == 0:
-            tomato[x][y + 1] = 1
-            nq.append((x, y + 1))
-    q = nq
 
-for row in tomato:
-    if 0 in row:
-        print(-1)
-        exit()
-print(result)
+if __name__ == "__main__":
+    main()
