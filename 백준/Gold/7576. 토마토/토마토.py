@@ -1,33 +1,39 @@
 import sys
+from collections import deque
 
 input = sys.stdin.readline
 
 M, N = map(int, input().split())
 tomato = [list(map(int, input().split())) for _ in range(N)]
 
-q = []
-result = -1
+q = deque()
+result = 0
 
 for i in range(N):
     for j in range(M):
         if tomato[i][j] == 1:
-            q.append((i, j))
+            q.append((i, j, 0))
 
 while q:
-    result += 1
-    nq = []
-    for x, y in q:
-        for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
-            nx, ny = x + dx, y + dy
-            if not (0 <= nx < N and 0 <= ny < M):
-                continue
-            if tomato[nx][ny] == 0:
-                tomato[nx][ny] = 1
-                nq.append((nx, ny))
-    q = nq
+    x, y, t = q.popleft()
+    if result < t:
+        result = t
+    if x - 1 >= 0 and tomato[x - 1][y] == 0:
+        tomato[x - 1][y] = 1
+        q.append((x - 1, y, t + 1))
+    if x + 1 < N and tomato[x + 1][y] == 0:
+        tomato[x + 1][y] = 1
+        q.append((x + 1, y, t + 1))
+    if y - 1 >= 0 and tomato[x][y - 1] == 0:
+        tomato[x][y - 1] = 1
+        q.append((x, y - 1, t + 1))
+    if y + 1 < M and tomato[x][y + 1] == 0:
+        tomato[x][y + 1] = 1
+        q.append((x, y + 1, t + 1))
 
 for row in tomato:
-    if 0 in row:
-        print(-1)
-        exit()
+    for t in row:
+        if t == 0:
+            print(-1)
+            exit()
 print(result)
