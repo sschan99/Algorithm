@@ -1,12 +1,11 @@
 import sys
-from collections import deque
 
 input = sys.stdin.readline
 
 M, N = map(int, input().split())
 tomato = [list(map(int, input().split())) for _ in range(N)]
 
-q = deque()
+q = []
 result = -1
 
 for i in range(N):
@@ -33,8 +32,7 @@ while q:
     q = nq
 
 for row in tomato:
-    for t in row:
-        if t == 0:
-            print(-1)
-            exit()
+    if 0 in row:
+        print(-1)
+        exit()
 print(result)
