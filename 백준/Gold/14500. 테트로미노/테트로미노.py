@@ -1,4 +1,3 @@
-from collections import deque
 import sys
 input = sys.stdin.readline
 
@@ -41,7 +40,7 @@ def T(x, y):
         for dx, dy in case:
             nx, ny = x + dx, y + dy
             if not (0 <= nx < n and 0 <= ny < m):
-                continue
+                break
             temp += matrix[nx][ny]
         result.append(temp)
     return max(result)
