@@ -8,11 +8,11 @@ def main():
 
     def solve(i):
         if i == m:
-            print(*seq)
+            print(' '.join(seq))
             return
 
         for num in nums:
-            seq[i] = num
+            seq[i] = str(num)
             solve(i + 1)
 
     solve(0)
