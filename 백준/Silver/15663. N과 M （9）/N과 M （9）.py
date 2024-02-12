@@ -1,32 +1,29 @@
-from collections import Counter
 import sys
 input = sys.stdin.readline
 
 def main():
     n, m = map(int, input().split())
     nums = sorted(map(int, input().split()))
+    used = [False] * n
     seq = []
-    counter = Counter(nums)
-    results = set()
 
     def solve():
         if len(seq) == m:
-            results.add(tuple(seq))
+            print(*seq)
             return
 
-        for num in nums:
-            if counter[num] == 0:
+        prev = 0
+        for i in range(n):
+            if used[i] or prev == nums[i]:
                 continue
-            seq.append(num)
-            counter[num] -= 1
+            seq.append(nums[i])
+            used[i] = True
+            prev = nums[i]
             solve()
             seq.pop()
-            counter[num] += 1
+            used[i] = False
 
     solve()
-
-    for seq in sorted(results):
-        print(*seq)
 
 if __name__ == '__main__':
     main()
