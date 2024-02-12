@@ -4,19 +4,18 @@ input = sys.stdin.readline
 def main():
     n, m = map(int, input().split())
     nums = sorted(set(map(int, input().split())))
-    seq = []
+    seq = [0] * m
 
-    def solve():
-        if len(seq) == m:
+    def solve(i):
+        if i == m:
             print(*seq)
             return
 
         for num in nums:
-            seq.append(num)
-            solve()
-            seq.pop()
+            seq[i] = num
+            solve(i + 1)
 
-    solve()
+    solve(0)
 
 if __name__ == '__main__':
     main()
