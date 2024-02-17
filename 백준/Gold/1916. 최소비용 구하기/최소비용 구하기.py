@@ -17,7 +17,7 @@ def main():
 
     while priority_queue:
         d, v = heapq.heappop(priority_queue)
-        if dist[v] != d:
+        if dist[v] < d:
             continue
         for dest, cost in bus[v]:
             alt = dist[v] + cost
