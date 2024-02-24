@@ -14,14 +14,11 @@ def main():
     def recursion(p):
         if p not in tree:
             return 0
-        max_length = 0
         for c, w in tree[p]:
             x = recursion(c) + w
             child_length[p].append(x)
-            if max_length < x:
-                max_length = x
         child_length[p].sort(reverse=True)
-        return max_length
+        return child_length[p][0]
     recursion(1)
 
     result = 0
