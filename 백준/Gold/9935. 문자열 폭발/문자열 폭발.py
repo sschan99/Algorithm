@@ -1,11 +1,11 @@
 line = input()
-bomb = input()
+bomb = list(input())
 size = len(bomb)
 stack = []
 
 for char in line:
     stack.append(char)
-    if ''.join(stack[-size:]) == bomb:
+    if stack[-size:] == bomb:
         for _ in range(size):
             stack.pop()
 
