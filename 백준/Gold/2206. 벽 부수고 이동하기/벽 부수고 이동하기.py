@@ -28,7 +28,7 @@ def main():
             nz = z + matrix[nx][ny]
             if nz > 1:
                 continue
-            if any(dist[nx][ny][:nz + 1]):
+            if dist[nx][ny][0] or (nz and dist[nx][ny][1]):
                 continue
             queue.append((nx, ny, nz))
             dist[nx][ny][nz] = dist[x][y][z] + 1
