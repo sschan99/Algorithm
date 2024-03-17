@@ -18,8 +18,7 @@ def main():
             for j in range(i):
                 alt = dist[i][k] + dist[k][j]
                 if dist[i][j] > alt:
-                    dist[i][j] = alt
-                    dist[j][i] = alt
+                    dist[i][j] = dist[j][i] = alt
 
     result = 0
     for row in dist:
