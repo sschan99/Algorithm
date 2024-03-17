@@ -15,10 +15,11 @@ def main():
 
     for k in range(n):
         for i in range(n):
-            for j in range(n):
+            for j in range(i):
                 alt = dist[i][k] + dist[k][j]
                 if dist[i][j] > alt:
                     dist[i][j] = alt
+                    dist[j][i] = alt
 
     result = 0
     for row in dist:
