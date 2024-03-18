@@ -29,7 +29,10 @@ def cal(n, s):
 def main():
     m = int(input())
     value = [cal(*map(int, input().split())) for _ in range(m)]
-    print(sum(value) % PRIME)
+    result = 0
+    for v in value:
+        result = (result + v) % PRIME
+    print(result)
 
 if __name__ == '__main__':
     main()
