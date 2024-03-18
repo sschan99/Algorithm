@@ -1,37 +1,13 @@
-from math import gcd
 import sys
 input = sys.stdin.readline
 
-PRIME = 1_000_000_007
-    
-def extended_gcd(a, b):
-    if a == 0:
-        return b, 0, 1
-    else:
-        gcd, x, y = extended_gcd(b % a, a)
-        return gcd, y - (b // a) * x, x
-
-def mod_inverse(a, m):
-    gcd, x, y = extended_gcd(a, m)
-    if gcd != 1:
-        raise ValueError('Modular inverse does not exist')
-    else:
-        return x % m
-
-def divide_by_gcd(n, s):
-    d = gcd(n, s)
-    return n // d, s // d
-
-def cal(n, s):
-    n, s = divide_by_gcd(n, s)
-    return s * mod_inverse(n, PRIME) % PRIME
-
 def main():
-    m = int(input())
-    value = [cal(*map(int, input().split())) for _ in range(m)]
+    PRIME = 1_000_000_007
     result = 0
-    for v in value:
-        result = (result + v) % PRIME
+    for _ in range(int(input())):
+        n, s = map(int, input().split())
+        value = s * pow(n, -1, PRIME) % PRIME
+        result = (result + value) % PRIME
     print(result)
 
 if __name__ == '__main__':
