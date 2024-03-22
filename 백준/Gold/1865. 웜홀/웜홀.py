@@ -3,23 +3,23 @@ input = sys.stdin.readline
 
 def main():
     def bellman_ford(start):
+        if visited[start]:
+            return False
+        visited[start] = True
+		    
         dist = [float('inf')] * (n + 1)
         dist[start] = 0
 
-        for _ in range(n - 1):
-            flag = True
+        for _ in range(n):
+            updated = False
             for s, e, t in edge:
                 if dist[e] > dist[s] + t:
                     dist[e] = dist[s] + t
-                    flag = False
+                    updated = True
                     visited[e] = True
-            if flag:
+            if not updated:
                 return False
-
-        for s, e, t in edge:
-            if dist[e] > dist[s] + t:
-                return True
-        return False
+        return True
 
     for _ in range(int(input())):
         n, m, w = map(int, input().split())
@@ -33,15 +33,7 @@ def main():
             edge.append((s, e, -t))
 
         visited = [False] * (n + 1)
-        for i in range(1, n + 1):
-            if visited[i]:
-                continue
-            visited[i] = True
-            if bellman_ford(i):
-                print('YES')
-                break
-        else:
-            print('NO')
+        print('YES' if any(bellman_ford(i) for i in range(1, n + 1)) else 'NO')
 
 if __name__ == '__main__':
     main()
