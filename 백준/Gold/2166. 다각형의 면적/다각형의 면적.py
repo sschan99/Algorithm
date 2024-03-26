@@ -5,12 +5,7 @@ def cal_tri(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
     k = x2 * y1 - x1 * y2
-    
-    if k == 0:
-        return 0
-    if k < 0:
-        return abs(k)
-    return -abs(k)
+    return k
 
 def main():
     n = int(input())
