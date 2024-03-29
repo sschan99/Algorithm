@@ -1,72 +1,36 @@
 import sys
 input = sys.stdin.readline
 
-def main():
-    matrix = [list(map(int, input().strip())) for _ in range(9)]
+matrix = [list(map(int, input().strip())) for _ in range(9)]
+zero = [(i, j) for i in range(9) for j in range(9) if matrix[i][j] == 0]
 
-    row_cond = []
+def print_matrix():
+    for row in matrix:
+        print(''.join(map(str, row)))
+
+def check(x, y, num):
     for i in range(9):
-        cond = set(range(1, 10))
-        for j in range(9):
-            cond.discard(matrix[i][j])
-        row_cond.append(cond)
+        if num in (matrix[x][i], matrix[i][y]):
+            return False
+    i, j = (x // 3) * 3, (y // 3) * 3
+    for k in range(3):
+        for l in range(3):
+            if num == matrix[i + k][j + l]:
+                return False
+    return True
 
-    col_cond = []
-    for i in range(9):
-        cond = set(range(1, 10))
-        for j in range(9):
-            cond.discard(matrix[j][i])
-        col_cond.append(cond)
-
-    block_cond = []
-    for i in range(3):
-        temp = []
-        for j in range(3):
-            cond = set(range(1, 10))
-            for k in range(3):
-                for l in range(3):
-                    cond.discard(matrix[i * 3 + k][j * 3 + l])
-            temp.append(cond)
-        block_cond.append(temp)
-
-    def print_matrix():
-        for row in matrix:
-            print(''.join(map(str, row)))
-
-    def get_next(x, y):
-        if y < 8:
-            return x, y + 1
-        return x + 1, 0
-
-    def sudoku(x, y):
-        if x > 8:
-            print_matrix()
-            exit()
-        nx, ny = get_next(x, y)
-        if matrix[x][y] != 0:
-            sudoku(nx, ny)
-            return
-        r = row_cond[x].copy()
-        c = col_cond[y].copy()
-        b = block_cond[x // 3][y // 3].copy()
-        for num in sorted(r & c & b):
+def sudoku(n):
+    if n == len(zero):
+        print_matrix()
+        exit()
+    x, y = zero[n]
+    if matrix[x][y] != 0:
+        sudoku(n + 1)
+        return
+    for num in range(1, 10):
+        if check(x, y, num):
             matrix[x][y] = num
-            if num in r:
-                row_cond[x].remove(num)
-            if num in c:
-                col_cond[y].remove(num)
-            if num in b:
-                block_cond[x // 3][y // 3].remove(num)
-            sudoku(nx, ny)
-            if num in r:
-                row_cond[x].add(num)
-            if num in r:
-                col_cond[y].add(num)
-            if num in b:
-                block_cond[x // 3][y // 3].add(num)
+            sudoku(n + 1)
             matrix[x][y] = 0
 
-    sudoku(0, 0)
-
-if __name__ == '__main__':
-    main()
+sudoku(0)
