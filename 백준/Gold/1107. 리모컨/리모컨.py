@@ -1,25 +1,20 @@
 import sys
-
 input = sys.stdin.readline
 
-def cal(num_str):
-    return len(num_str) + abs(N - int(num_str))
+def main():
+    n = int(input())
+    m = int(input())
+    button = set(range(10))
+    if m:
+        for num in map(int, input().split()):
+            button.remove(num)
+    answer = abs(n - 100)
+    for i in range(1_000_000):
+        num = str(i)
+        if set(map(int, num)) - button:
+            continue
+        answer = min(answer, len(num) + abs(n - i))
+    print(answer)
 
-N = int(input())
-M = int(input())
-buttons = set(i for i in range(10))
-if M:
-    for x in input().split():
-        buttons.remove(int(x))
-
-result = abs(N - 100)
-
-for i in range(1_000_000):
-    num_str = str(i)
-    for digit in num_str:
-        if int(digit) not in buttons:
-            break
-    else:
-        result = min(result, cal(num_str))
-
-print(result)
+if __name__ == '__main__':
+    main()
