@@ -6,18 +6,14 @@ def main():
     if n == 1:
         return 0
 
-    prime = [2]
-    for i in range(3, n + 1, 2):
-        limit = int(i ** 0.5)
-        isprime = True
-        for p in prime:
-            if p > limit:
-                break
-            if i % p == 0:
-                isprime = False
-                break
-        if isprime:
-            prime.append(i)
+    prime = []
+    isprime = [True] * (n + 1)
+    for i in range(2, n + 1):
+        if not isprime[i]:
+            continue
+        prime.append(i)
+        for j in range(i * 2, n + 1, i):
+            isprime[j] = False
 
     start = end = len(prime) - 1
     sum = prime[-1]
