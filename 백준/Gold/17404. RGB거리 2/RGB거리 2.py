@@ -3,44 +3,23 @@ input = sys.stdin.readline
 
 def main():
     n = int(input())
-    r, g, b = map(int, input().split())
-    r_first = (r, float('inf'), float('inf'))
-    g_first = (float('inf'), g, float('inf'))
-    b_first = (float('inf'), float('inf'), b)
-    for _ in range(n - 2):
-        r, g, b = map(int, input().split())
-        r_first = (
-            min(r_first[1], r_first[2]) + r,
-            min(r_first[0], r_first[2]) + g,
-            min(r_first[0], r_first[1]) + b,
-        )
-        g_first = (
-            min(g_first[1], g_first[2]) + r,
-            min(g_first[0], g_first[2]) + g,
-            min(g_first[0], g_first[1]) + b,
-        )
-        b_first = (
-            min(b_first[1], b_first[2]) + r,
-            min(b_first[0], b_first[2]) + g,
-            min(b_first[0], b_first[1]) + b,
-        )
-    r, g, b = map(int, input().split())
-    r_first = (
-        float('inf'),
-        min(r_first[0], r_first[2]) + g,
-        min(r_first[0], r_first[1]) + b,
-    )
-    g_first = (
-        min(g_first[1], g_first[2]) + r,
-        float('inf'),
-        min(g_first[0], g_first[1]) + b,
-    )
-    b_first = (
-        min(b_first[1], b_first[2]) + r,
-        min(b_first[0], b_first[2]) + g,
-        float('inf'),
-    )
-    print(min(*r_first, *g_first, *b_first))
+
+    dp = [[float('inf')] * 3 for _ in range(3)]
+    rgb = list(map(int, input().split()))
+    for i in range(3):
+        dp[i][i] = rgb[i]
+
+    for _ in range(n - 1):
+        rgb = list(map(int, input().split()))
+        for i in range(3):
+            dp[i] = [
+                min(dp[i][1], dp[i][2]) + rgb[0],
+                min(dp[i][0], dp[i][2]) + rgb[1],
+                min(dp[i][0], dp[i][1]) + rgb[2],
+            ]
+    for i in range(3):
+        dp[i][i] = float('inf')
+    print(min(map(min, dp)))
 
 if __name__ == '__main__':
     main()
