@@ -36,18 +36,19 @@ def main():
         for j in range(n):
             if 'a' <= matrix[i][j] <= 'z':
                 arrive_time.append((bfs(i, j), matrix[i][j]))
-    arrive_time.sort(reverse=True)
+    arrive_time.sort()
 
-    time = 0
     total_dps = 0
+    last_arrive = 0
     count = 0
-    while hp > 0:
-        time += 1
-        while arrive_time and arrive_time[-1][0] <= time:
-            _, name = arrive_time.pop()
-            total_dps += dps[name]
-            count += 1
-        hp -= total_dps
+    for time, name in arrive_time:
+        hp -= total_dps * (time - last_arrive)
+        if hp <= 0:
+            break
+        total_dps += dps[name]
+        last_arrive = time
+        count += 1
+        
     print(count)
 
 if __name__ == '__main__':
