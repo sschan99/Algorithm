@@ -1,28 +1,27 @@
 import sys
 input = sys.stdin.readline
+sys.setrecursionlimit(1_000_000)
 
 def main():
-    for _ in range(int(input())):
+    def dfs(u):
+        if memo[u] != -1:
+            return memo[u]
+        memo[u] = d[u]
+        if need[u]:
+            memo[u] += max(dfs(v) for v in need[u])
+        return memo[u]
+
+    t = int(input())
+    for _ in range(t):
         n, k = map(int, input().split())
         d = [0] + list(map(int, input().split()))
         need = [[] for _ in range(n + 1)]
-        count = [0] * (n + 1)
         for _ in range(k):
             x, y = map(int, input().split())
-            need[x].append(y)
-            count[y] += 1
+            need[y].append(x)
         w = int(input())
-
-        stack = [i for i in range(1, n + 1) if count[i] == 0]
-        result = d.copy()
-        while stack:
-            u = stack.pop()
-            for v in need[u]:
-                result[v] = max(result[v], result[u] + d[v])
-                count[v] -= 1
-                if count[v] == 0:
-                    stack.append(v)
-        print(result[w])
+        memo = [-1] * (n + 1)
+        print(dfs(w))
 
 if __name__ == '__main__':
     main()
