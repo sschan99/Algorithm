@@ -9,11 +9,12 @@ def main():
     right = n - 1
     while left < right:
         alt = (arr[left], arr[right])
-        if abs(sum(result)) > abs(sum(alt)):
+        s = sum(alt)
+        if abs(sum(result)) > abs(s):
             result = alt
-        if sum(alt) < 0:
+        if s < 0:
             left += 1
-        elif sum(alt) > 0:
+        elif s > 0:
             right -= 1
         else:
             break
