@@ -6,8 +6,9 @@ def main():
     arr = sorted(map(int, input().split()))
     result = (0, 0, 0)
     result_sum = float('inf')
-    for num in arr:
-        left = 0
+    for i in range(n - 2):
+        num = arr[i]
+        left = i + 1
         right = n - 1
         while left < right:
             alt = (num, arr[left], arr[right])
