@@ -6,98 +6,52 @@ def main():
     n = int(input())
     matrix = [list(map(int, input().split())) for _ in range(n)]
 
+    def move(matrix, reverse=False, vertical=False):
+        temp = [row.copy() for row in matrix]
+        for i in range(n):
+            deq = deque()
+            flag = True
+            for j in range(n - 1, -1, -1) if vertical else range(n):
+                x = matrix[j][i] if reverse else matrix[i][j]
+                if x == 0:
+                    continue
+                if deq and deq[-1] == x and flag:
+                    deq[-1] *= 2
+                    flag = False
+                else:
+                    flag = True
+                    deq.append(x)
+            if reverse:
+                for j in range(n - 1, -1, -1) if vertical else range(n):
+                    if not deq:
+                        temp[j][i] = 0
+                        continue
+                    temp[j][i] = deq.popleft()
+            else:
+                for j in range(n - 1, -1, -1) if vertical else range(n):
+                    if not deq:
+                        temp[i][j] = 0
+                        continue
+                    temp[i][j] = deq.popleft()
+        return temp
+
     def dfs(count, matrix):
         if count == 0:
             return max(map(max, matrix))
-        result = 0
-
+        result = []
         #좌
-        temp = [row.copy() for row in matrix]
-        for i in range(n):
-            deq = deque()
-            flag = True
-            for j in range(n):
-                x = matrix[i][j]
-                if x == 0:
-                    continue
-                if deq and deq[-1] == x and flag:
-                    deq[-1] *= 2
-                    flag = False
-                else:
-                    flag = True
-                    deq.append(x)
-            for j in range(n):
-                if not deq:
-                    temp[i][j] = 0
-                    continue
-                temp[i][j] = deq.popleft()
-        result = max(result, dfs(count - 1, temp))
-
+        temp = move(matrix)
+        result.append(dfs(count - 1, temp))
         #우
-        temp = [row.copy() for row in matrix]
-        for i in range(n):
-            deq = deque()
-            flag = True
-            for j in range(n - 1, -1, -1):
-                x = matrix[i][j]
-                if x == 0:
-                    continue
-                if deq and deq[-1] == x and flag:
-                    deq[-1] *= 2
-                    flag = False
-                else:
-                    flag = True
-                    deq.append(x)
-            for j in range(n - 1, -1, -1):
-                if not deq:
-                    temp[i][j] = 0
-                    continue
-                temp[i][j] = deq.popleft()
-        result = max(result, dfs(count - 1, temp))
-
+        temp = move(matrix, reverse=True)
+        result.append(dfs(count - 1, temp))
         #상
-        temp = [row.copy() for row in matrix]
-        for i in range(n):
-            deq = deque()
-            flag = True
-            for j in range(n):
-                x = matrix[j][i]
-                if x == 0:
-                    continue
-                if deq and deq[-1] == x and flag:
-                    deq[-1] *= 2
-                    flag = False
-                else:
-                    flag = True
-                    deq.append(x)
-            for j in range(n):
-                if not deq:
-                    temp[j][i] = 0
-                    continue
-                temp[j][i] = deq.popleft()
-        result = max(result, dfs(count - 1, temp))
-
+        temp = move(matrix, vertical=True)
+        result.append(dfs(count - 1, temp))
         #하
-        temp = [row.copy() for row in matrix]
-        for i in range(n):
-            deq = deque()
-            flag = True
-            for j in range(n - 1, -1, -1):
-                x = matrix[j][i]
-                if x == 0:
-                    continue
-                if deq and deq[-1] == x and flag:
-                    deq[-1] *= 2
-                    flag = False
-                else:
-                    flag = True
-                    deq.append(x)
-            for j in range(n - 1, -1, -1):
-                if not deq:
-                    temp[j][i] = 0
-                    continue
-                temp[j][i] = deq.popleft()
-        return max(result, dfs(count - 1, temp))
+        temp = move(matrix, reverse=True, vertical=True)
+        result.append(dfs(count - 1, temp))
+        return max(result)
 
     print(dfs(5, matrix))
 
