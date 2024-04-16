@@ -11,8 +11,8 @@ def main():
         for i in range(n):
             deq = deque()
             flag = True
-            for j in range(n - 1, -1, -1) if vertical else range(n):
-                x = matrix[j][i] if reverse else matrix[i][j]
+            for j in range(n - 1, -1, -1) if reverse else range(n):
+                x = matrix[j][i] if vertical else matrix[i][j]
                 if x == 0:
                     continue
                 if deq and deq[-1] == x and flag:
@@ -21,14 +21,14 @@ def main():
                 else:
                     flag = True
                     deq.append(x)
-            if reverse:
-                for j in range(n - 1, -1, -1) if vertical else range(n):
+            if vertical:
+                for j in range(n - 1, -1, -1) if reverse else range(n):
                     if not deq:
                         temp[j][i] = 0
                         continue
                     temp[j][i] = deq.popleft()
             else:
-                for j in range(n - 1, -1, -1) if vertical else range(n):
+                for j in range(n - 1, -1, -1) if reverse else range(n):
                     if not deq:
                         temp[i][j] = 0
                         continue
