@@ -1,27 +1,22 @@
+from bisect import bisect_left
 import sys
 input = sys.stdin.readline
 
 def main():
     n = int(input())
-    a = [0] + list(map(int, input().split()))
-    d = [0]
+    a = list(map(int, input().split()))
+
+    d = []
     x = [0]
 
-    for i in range(1, n + 1):
-        left = 0
-        right = len(x) - 1
-        while left < right:
-            mid = (left + right + 1) // 2
-            if x[mid] < a[i]:
-                left = mid
-            else:
-                right = mid - 1
-        j = left
-        d.append(j + 1)
-        if j + 1 < len(x):
-            x[j + 1] = a[i]
-        else:
+    for i in range(n):
+        j = bisect_left(x, a[i])
+        d.append(j)
+        if j == len(x):
             x.append(a[i])
+        else:
+            x[j] = a[i]
+
     print(max(d))
 
 if __name__ == '__main__':
