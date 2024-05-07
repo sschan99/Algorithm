@@ -10,9 +10,8 @@ def main():
         dp[i] = 1
 
     for i in range(1, n):
-        for j in range(k + 1):
-            if j >= coin[i]:
-                dp[j] += dp[j - coin[i]]
+        for j in range(coin[i], k + 1):
+            dp[j] += dp[j - coin[i]]
     print(dp[-1])
 
 if __name__ == '__main__':
