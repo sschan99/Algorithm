@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def main():
     n, k = map(int, input().split())
     coin = sorted(int(input()) for _ in range(n))
