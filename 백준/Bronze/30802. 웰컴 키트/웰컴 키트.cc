@@ -15,11 +15,7 @@ int main()
 	int result = 0;
 	for (int i = 0; i < 6; i++)
 	{
-		result += size[i] / t;
-		if (size[i] % t > 0)
-		{
-			result += 1;
-		}
+		result += (size[i] + t - 1) / t;
 	}
 	cout << result << endl;
 	cout << n / p << ' ' << n % p << endl;
