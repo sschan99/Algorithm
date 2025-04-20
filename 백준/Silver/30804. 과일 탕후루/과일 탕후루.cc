@@ -4,6 +4,9 @@ using namespace std;
 
 int main()
 {
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+
 	int N;
 	cin >> N;
 
@@ -23,22 +26,20 @@ int main()
 
 	while (back != S.end())
 	{
-		if (fruits[*back]++ == 0)
+		if (fruits[*back++]++ == 0)
 		{
 			count++;
 		}
-		back++;
 		
 		if (count <= 2)
 		{
 			continue;
 		}
 
-		if (--fruits[*front] == 0)
+		if (--fruits[*front++] == 0)
 		{
 			count--;
 		}
-		front++;
 	}
 	cout << back - front;
 }
