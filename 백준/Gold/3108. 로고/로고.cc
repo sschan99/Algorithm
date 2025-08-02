@@ -15,8 +15,7 @@ static int find(vector<int>& root, int x) {
 }
 
 static void merge(vector<int>& root, int x, int y) {
-	if (find(root, x) == find(root, y)) return;
-	root[find(root, y)] = find(root, x);
+	root[find(root, x)] = find(root, y);
 }
 
 static void solve() {
