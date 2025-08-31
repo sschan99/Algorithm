@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<int> LPS(string p) {
+vector<int> LPS(const string& p) {
   int m = p.size(), j = 0;
   vector<int> lps(m, 0);
 
@@ -18,12 +18,12 @@ vector<int> LPS(string p) {
   return lps;
 }
 
-int KMP(string s, string p) {
+int KMP(const string& s, const string& p) {
   int n = s.size(), m = p.size();
   vector<int> lps = LPS(p);
   vector<int> counter(m + 1, 0);
   
-  int i = 0, j = 0, max_size = 0;
+  int i = 0, j = 0;
   while (i < n) {
 	if (s[i] == p[j]) {
 	  ++i;
