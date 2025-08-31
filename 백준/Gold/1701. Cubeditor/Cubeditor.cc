@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -18,46 +19,16 @@ vector<int> LPS(const string& p) {
   return lps;
 }
 
-int KMP(const string& s, const string& p) {
-  int n = s.size(), m = p.size();
-  vector<int> lps = LPS(p);
-  vector<int> counter(m + 1, 0);
-  
-  int i = 0, j = 0;
-  while (i < n) {
-	if (s[i] == p[j]) {
-	  ++i;
-	  ++j;
-	  counter[j] += 1;
-	  if (j == m) {
-		j = lps[j - 1];
-	  }
-	  continue;
-	}
-	if (j > 0) {
-	  j = lps[j - 1];
-	  continue;
-	}
-	++i;
-  }
-
-  for (int i = m; i >= 0; --i) {
-	if (counter[i] >= 2) {
-	  return i;
-	}
-  }
-  return 0;
-}
-
 int solve() {
   string s;
   cin >> s;
 
   int n = s.size(), result = 0;
 
-  for (int i = 0; i < n; ++i)
-	result = max(result, KMP(s, s.substr(i)));
-  
+  for (int i = 0; i < n; ++i) {
+	vector<int> v = LPS(s.substr(i));
+	result = max(result, *max_element(v.begin(), v.end()));
+  }
   return result;
 }
 
