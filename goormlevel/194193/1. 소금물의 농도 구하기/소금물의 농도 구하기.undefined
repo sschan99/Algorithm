@@ -1,0 +1,19 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+	int n, m;
+	cin >> n >> m;
+
+	double result = 7 * n / (double)(n + m);
+	
+	cout.precision(2);
+	cout << fixed << floor(result * 100) / 100;
+	
+	return 0;
+}
+// 원하는 값 = (7 * N) / (N + M)
+
+// 농도 / 100 = 용질 / 용액
+// 7 * N / 100 = ??
