@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+bool solve() {
+	int x, y, n;
+	cin >> x >> y >> n;
+	int dist = abs(x) + abs(y);
+	if (dist > n)
+		return false;
+	return dist % 2 == n % 2;
+}
+
+int main() {
+	int t;
+	cin >> t;
+
+	while (t--) {
+		cout << (solve() ? "YES\n" : "NO\n");
+	}
+	
+	return 0;
+}
