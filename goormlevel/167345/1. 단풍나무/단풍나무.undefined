@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int dy[4] = {0, 1, 0, -1};
+const int dx[4] = {1, 0, -1, 0};
+
+int main() {
+	int n;
+	cin >> n;
+	vector<vector<int>> matrix(n, vector<int>(n, 0));
+	for (auto& row : matrix) {
+		for (auto& elem : row) {
+			cin >> elem;
+		}
+	}
+
+	int i = 0;
+	while (true) {
+		auto prev = matrix;
+		bool done = true;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (prev[i][j] != 0) {
+					done = false;
+					continue;
+				}
+				for (int k = 0; k < 4; k++) {
+					int ny = i + dy[k], nx = j + dx[k];
+					if (ny < 0 || n <= ny || nx < 0 || n <= nx) continue;
+					if (matrix[ny][nx] == 0) continue;
+					matrix[ny][nx]--;
+				}
+			}
+		}
+		if (done) break;
+		i++;
+	}
+	cout << i;
+	
+	return 0;
+}
