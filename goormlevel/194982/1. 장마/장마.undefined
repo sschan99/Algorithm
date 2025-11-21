@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+	int n, m;
+	cin >> n >> m;
+	vector<int> house(n);
+	for (int& h : house) {
+		cin >> h;
+	}
+	vector<int> delta(n, 0);
+	for (int i = 1; i <= m; i++) {
+		int s, e;
+		cin >> s >> e;
+		for (int j = s - 1; j < e; j++) {
+			delta[j]++;
+		}
+		if (i % 3 != 0) continue;
+		
+		for (int j = 0; j < n; j++) {
+			if (delta[j] > 0) {
+				house[j] += delta[j] - 1;
+				delta[j] = 0;
+			}
+		}
+	}
+	for (int j = 0; j < n; j++) {
+		cout << house[j] + delta[j] << ' ';
+	}
+	return 0;
+}
+
+// -1 0 1 0 2
+// -1 0 1 2 4
