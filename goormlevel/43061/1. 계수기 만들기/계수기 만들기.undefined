@@ -1,0 +1,23 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+	int n, k;
+	cin >> n;
+	vector<int> A(n);
+	for (int& i : A) cin >> i;
+	vector<int> B(n);
+	for (int& i : B) cin >> i;
+	cin >> k;
+
+	for (int i = n - 1; i >= 0; i--) {
+		int r = (k + B[i]) % (A[i] + 1);
+		k = (k + B[i]) / (A[i] + 1);
+		B[i] = r;
+	}
+	for (int i : B)
+		cout << i;
+	
+	return 0;
+}
