@@ -3,53 +3,39 @@
 #include <unordered_map>
 using namespace std;
 
-int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(NULL);
+int n;
+vector<vector<int>> matrix;
+const int inf = 1e9;
 
-  int n;
+int dfs(vector<vector<int>>& dp, int visited, int last) {
+  if (dp[visited][last] == 0) {
+	int prev = visited ^ (1 << last);
+	int temp = inf;
+	for (int i = 0; i < n; i++) {
+	  if ((prev & (1 << i)) && matrix[i][last] != 0) {
+		temp = min(temp, dfs(dp, prev, i) + matrix[i][last]);
+	  }
+	}
+	dp[visited][last] = temp;
+  }
+  return dp[visited][last];
+}
+
+int main() {
   cin >> n;
-  vector<vector<int>> matrix(n, vector<int>(n));
+
+  matrix.resize(n);
   for (auto& row : matrix) {
+	row.resize(n);
 	for (int& elem : row) {
 	  cin >> elem;
 	}
   }
-  unordered_map<int, int> memo;
-  for (int i = 1; i < n; i++) {
-	if (matrix[0][i] != 0) {
-	  int key = (i << n) | (1 << i) | 1;
-	  memo[key] = matrix[0][i];
-	}
+  vector<vector<int>> dp(1 << n, vector<int>(n, 0));
+  for (int i = 0; i < n; i++) {
+	dp[1 << i][i] = matrix[0][i] == 0 ? inf : matrix[0][i];
   }
-  const int mask = (1 << n) - 1;
-  for (int num = 2; num < n; num++) {
-	unordered_map<int, int> new_memo;
-	for (auto& [key, value] : memo) {
-	  int end = key >> n;
-	  for (int i = 0; i < n; i++) {
-		if (key & (1 << i) || matrix[end][i] == 0) {
-		  continue;
-		}
-		int new_key = (i << n) | ((key & mask) | (1 << i));
-		if (new_memo.count(new_key)) {
-		  new_memo[new_key] = min(new_memo[new_key], value + matrix[end][i]);
-		}
-		else {
-		  new_memo[new_key] = value + matrix[end][i];
-		}
-	  }
-	}
-	memo.swap(new_memo);
-  }
-  int result = 1000000000;
-  for (auto& [key, value] : memo) {
-	int end = key >> n;
-	if (matrix[end][0] != 0) {
-	  result = min(result, value + matrix[end][0]);
-	}
-  }
-  cout << result;
+  cout << dfs(dp, (1 << n) - 1, 0);
 
   return 0;
 }
