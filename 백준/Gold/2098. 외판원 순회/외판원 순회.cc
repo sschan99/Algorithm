@@ -8,13 +8,16 @@ vector<vector<int>> matrix;
 const int inf = 1e9;
 
 int dfs(vector<vector<int>>& dp, int visited, int last) {
-  if (dp[visited][last] == 0) {
-	int prev = visited ^ (1 << last);
+  if (visited == (1 << n) - 1) {
+	dp[visited][last] = matrix[last][0] == 0 ? inf : matrix[last][0];
+  }
+  else if (dp[visited][last] == 0) {
 	int temp = inf;
-	for (int i = 0; i < n; i++) {
-	  if ((prev & (1 << i)) && matrix[i][last] != 0) {
-		temp = min(temp, dfs(dp, prev, i) + matrix[i][last]);
+	for (int i = 1; i < n; i++) {
+	  if (visited & (1 << i) || matrix[last][i] == 0) {
+		continue;
 	  }
+	  temp = min(temp, matrix[last][i] + dfs(dp, visited | (1 << i), i));
 	}
 	dp[visited][last] = temp;
   }
@@ -32,10 +35,8 @@ int main() {
 	}
   }
   vector<vector<int>> dp(1 << n, vector<int>(n, 0));
-  for (int i = 0; i < n; i++) {
-	dp[1 << i][i] = matrix[0][i] == 0 ? inf : matrix[0][i];
-  }
-  cout << dfs(dp, (1 << n) - 1, 0);
+
+  cout << dfs(dp, 1, 0);
 
   return 0;
 }
